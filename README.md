@@ -9,7 +9,7 @@ This plugin has been proudly written in JavaScript, a language so popular that n
 
 # Instructions
 
--Download ScriptCraft (www.scriptcraftjs.org) and put the .jar file inside the plugins folder inside your server's root folder. This will generate a new folder called "ScriptCraft" in your root folder.
+-Download ScriptCraft (http://www.scriptcraftjs.org) and put the .jar file inside the plugins folder inside your server's root folder. This will generate a new folder called "ScriptCraft" in your root folder.
 
 -Add our js plugin file inside ServerRootFolder/ScriptCraft/plugins
 
@@ -19,9 +19,9 @@ This plugin has been proudly written in JavaScript, a language so popular that n
 
 
 # Usage
-/tpadd locationName 
+/tpadd locationName |
 This will register a new location with the player's coordinates to the compass inventory.
-/tpdel locationName
+/tpdel locationName | 
 This will delete a location. This is useful if your compass inventory is running out of slots.
 
 # Configuration
