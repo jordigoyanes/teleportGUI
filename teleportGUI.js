@@ -26,7 +26,7 @@ var ItemStack = Packages.org.bukkit.inventory.ItemStack;
 var Material = Packages.org.bukkit.Material;
 var ItemMeta = Packages.org.bukkit.inventory.meta.ItemMeta;
 var Location = Packages.org.bukkit.Location;
-var compassdb = persist('compassdata', {});
+var compassdb = scload('compassdata.json')
 
 function compassInventory(event) {
 var p = event.getPlayer();
@@ -34,28 +34,39 @@ var compassInv = Bukkit.createInventory(p, COMPASS_INVENTORY_SIZE, COMPASS_INVEN
 var action = event.getAction()
 var playerUUID = p.uniqueId;
 
+var showLocs = function(){
+	if (compassdb[playerUUID] != undefined && compassdb[playerUUID].compass != undefined) {
+	            for (var locName in compassdb[playerUUID].compass) {
+	                if (compassdb[playerUUID].compass.hasOwnProperty(locName) && compassdb[playerUUID].compass[locName] != undefined) {
+	                		var bed = new ItemStack(Material.BED, 1);
+	        				var meta = bed.getItemMeta();
+	                        var coords = []; //lore
+	                        coords.push(compassdb[playerUUID].compass[locName].x.toString());
+	                        coords.push(compassdb[playerUUID].compass[locName].y.toString());
+	                        coords.push(compassdb[playerUUID].compass[locName].z.toString());
+	                        meta.setDisplayName(locName.toString())
+	                        meta.setLore(coords);
+	                        bed.setItemMeta(meta);
+	                        compassInv.addItem(bed);
+			          }
+
+
+	            }
+
+    }
+}
+
 if (p.getItemInHand().getType() == Material.COMPASS) {
     if (action == "RIGHT_CLICK_AIR" || action == "LEFT_CLICK_AIR" || action == "RIGHT_CLICK_BLOCK") {
-        if (compassdb[playerUUID] != undefined && compassdb[playerUUID].compass != undefined) {
-            for (var locName in compassdb[playerUUID].compass) {
-                if (compassdb[playerUUID].compass.hasOwnProperty(locName) && compassdb[playerUUID].compass[locName] != undefined) {
-                		var bed = new ItemStack(Material.BED, 1);
-        				var meta = bed.getItemMeta();
-                        var coords = []; //lore
-                        coords.push(compassdb[playerUUID].compass[locName].x.toString());
-                        coords.push(compassdb[playerUUID].compass[locName].y.toString());
-                        coords.push(compassdb[playerUUID].compass[locName].z.toString());
-                        meta.setDisplayName(locName.toString())
-                        meta.setLore(coords);
-                        bed.setItemMeta(meta);
-                        compassInv.addItem(bed);
-		          }
-
-
-            }
-
-        }
-        p.openInventory(compassInv);
+	        if(compassdb == undefined){
+		        compassdb={}; 
+		        compassdb[playerUUID]={}; 
+		        compassdb[playerUUID].compass={}; 
+		        scsave(compassdb, 'compassdata.json'); 
+		        showLocs()
+			}else{showLocs()}
+			
+   			p.openInventory(compassInv);
     }
 }
 
@@ -106,6 +117,7 @@ commando('tpadd', function(args, player) {
                     compassdb[playerUUID].compass[homeName].x = tx;
                     compassdb[playerUUID].compass[homeName].y = ty;
                     compassdb[playerUUID].compass[homeName].z = tz;
+                    scsave(compassdb, 'compassdata.json');
                     echo(player, LOCATION_CREATED_MESSAGE.green())
                 } else {
                     echo(player, LOCATION_ALREADY_EXISTS_MESSAGE.red())
@@ -120,6 +132,7 @@ commando('tpadd', function(args, player) {
         } else {
             compassdb[playerUUID] = {};
             compassdb[playerUUID].compass = {};
+            scsave(compassdb, 'compassdata.json');
             addLocation();
         }
     } else {
@@ -133,6 +146,7 @@ commando('tpdel', function(args, player) {
     var playerUUID = player.uniqueId;
     if (compassdb[playerUUID].compass[homeName] != undefined) {
         compassdb[playerUUID].compass[homeName] = undefined;
+        scsave(compassdb, 'compassdata.json');
         echo(player, LOCATION_DELETED_MESSAGE)
 
     } else {
