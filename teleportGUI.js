@@ -1,12 +1,13 @@
 /*
-	Compass Teleport
-		Version: 1.0
-		By Jordi Goyanes
+	Teleport GUI - 
+		Description: Use a compass to teleport to any registered place you have using an inventory as a nice GUI.
+		Version: 2.0
+		Author: Jordi Goyanes
 */
 
 // CONFIGURATION 
 var COMPASS_INVENTORY_NAME = "Compass"
-var COMPASS_INVENTORY_SIZE = 9 //IT MUST BE MULTIPLE OF 9!! (and no strings)
+var COMPASS_INVENTORY_SIZE = 9 //It must be multiple of 9 and an integer.
 var LOCATION_CREATED_MESSAGE = "Location succesfully created!"
 var LOCATION_DELETED_MESSAGE = "Location deleted"
 var LOCATION_ALREADY_EXISTS_MESSAGE = "That location name already exists!"
@@ -18,57 +19,54 @@ var USAGE_INFO = "Usage: /tpadd myHomeName (no spaces)"
 
 //END OF CONFIGURATION
 
-//below is the plugin code, edit it under your own risk :)
+//Below is the plugin code, edit it under your own risk :)
 
-var Bukkit = Packages.org.bukkit.Bukkit;
-var Inventory = Packages.org.bukkit.inventory.Inventory;
-var ItemStack = Packages.org.bukkit.inventory.ItemStack;
-var Material = Packages.org.bukkit.Material;
-var ItemMeta = Packages.org.bukkit.inventory.meta.ItemMeta;
-var Location = Packages.org.bukkit.Location;
+var Bukkit = org.bukkit.Bukkit;
+var Inventory = org.bukkit.inventory.Inventory;
+var ItemStack = org.bukkit.inventory.ItemStack;
+var Material = org.bukkit.Material;
+var ItemMeta = org.bukkit.inventory.meta.ItemMeta;
+var Location = org.bukkit.Location;
 var compassdb = scload('compassdata.json')
 
 function compassInventory(event) {
-var p = event.getPlayer();
-var compassInv = Bukkit.createInventory(p, COMPASS_INVENTORY_SIZE, COMPASS_INVENTORY_NAME);
-var action = event.getAction()
-var playerUUID = p.uniqueId;
-
-var showLocs = function(){
-	if (compassdb[playerUUID] != undefined && compassdb[playerUUID].compass != undefined) {
-	            for (var locName in compassdb[playerUUID].compass) {
-	                if (compassdb[playerUUID].compass.hasOwnProperty(locName) && compassdb[playerUUID].compass[locName] != undefined) {
-	                		var bed = new ItemStack(Material.BED, 1);
-	        				var meta = bed.getItemMeta();
-	                        var coords = []; //lore
-	                        coords.push(compassdb[playerUUID].compass[locName].x.toString());
-	                        coords.push(compassdb[playerUUID].compass[locName].y.toString());
-	                        coords.push(compassdb[playerUUID].compass[locName].z.toString());
-	                        meta.setDisplayName(locName.toString())
-	                        meta.setLore(coords);
-	                        bed.setItemMeta(meta);
-	                        compassInv.addItem(bed);
-			          }
-
-
-	            }
-
-    }
-}
-
-if (p.getItemInHand().getType() == Material.COMPASS) {
-    if (action == "RIGHT_CLICK_AIR" || action == "LEFT_CLICK_AIR" || action == "RIGHT_CLICK_BLOCK") {
+	var p = event.getPlayer();
+	var compassInv = Bukkit.createInventory(p, COMPASS_INVENTORY_SIZE, COMPASS_INVENTORY_NAME);
+	var action = event.getAction()
+	var playerUUID = p.uniqueId;
+	
+	var showLocs = function(){
+		if (compassdb[playerUUID] != undefined && compassdb[playerUUID].compass != undefined) {
+		            for (var locName in compassdb[playerUUID].compass) {
+		                if (compassdb[playerUUID].compass.hasOwnProperty(locName) && compassdb[playerUUID].compass[locName] != undefined) {
+		                	var bed = new ItemStack(Material.BED, 1);
+		        		var meta = bed.getItemMeta();
+		                        var coords = []; //lore
+		                        coords.push(compassdb[playerUUID].compass[locName].x.toString());
+		                        coords.push(compassdb[playerUUID].compass[locName].y.toString());
+		                        coords.push(compassdb[playerUUID].compass[locName].z.toString());
+		                        meta.setDisplayName(locName.toString())
+		                        meta.setLore(coords);
+		                        bed.setItemMeta(meta);
+		                        compassInv.addItem(bed);
+			   	}
+		            }
+	    	}
+	}
+	
+	if (p.getItemInHand().getType() == Material.COMPASS) {
+	    if (action == "RIGHT_CLICK_AIR" || action == "LEFT_CLICK_AIR" || action == "RIGHT_CLICK_BLOCK") {
 	        if(compassdb == undefined){
+	        	//If the compass database doesn't exist, create one from the first compass click made by any player.
 		        compassdb={}; 
 		        compassdb[playerUUID]={}; 
 		        compassdb[playerUUID].compass={}; 
 		        scsave(compassdb, 'compassdata.json'); 
 		        showLocs()
-			}else{showLocs()}
-			
-   			p.openInventory(compassInv);
-    }
-}
+		}else{showLocs()}
+		p.openInventory(compassInv);
+	    }
+	}
 
 }
 
