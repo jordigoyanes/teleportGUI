@@ -151,3 +151,11 @@ commando('tpdel', function(args, player) {
         echo(player, LOCATION_DOESNT_EXIST_MESSAGE.red())
     }
 });
+
+//information command:
+commando('compass', function(args, player) {
+    echo("TeleportGUI info:".gray())
+    echo(player, "/tpadd <location name> - This creates a new location with your current coordinates.".gold())
+    echo(player, "/tpdelete <location name> - This will delete a registered location name.".gold())
+    echo(player, "Click with a compass in hand to open your compass inventory!".gold())
+})
