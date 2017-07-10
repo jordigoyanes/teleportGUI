@@ -19,9 +19,9 @@ This plugin has been proudly written in JavaScript, a language so popular that n
 
 
 # Usage
-**/tpadd locationName**
-This will register a new location with the player's coordinates to the compass inventory.  
-**/tpdel locationName |**   
+**/tpadd locationName**  
+This will register a new location with the player's coordinates to the compass inventory.   
+**/tpdel locationName**  
 This will delete a location. This is useful if your compass inventory is running out of slots.  
 
 # Configuration
