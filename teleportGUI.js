@@ -75,7 +75,7 @@ function compassTeleport(event) {
     var clicked = event.getCurrentItem();
     var player = event.getWhoClicked();
 
-    if (clicked != undefined) {
+    if (clicked != null) {
         if (compassinv.getName() == COMPASS_INVENTORY_NAME && clicked.getType() != Material.AIR) {
             event.setCancelled(true)
             var meta = clicked.getItemMeta();
