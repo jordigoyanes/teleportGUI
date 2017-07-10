@@ -156,6 +156,6 @@ commando('tpdel', function(args, player) {
 commando('compass', function(args, player) {
     echo("TeleportGUI info:".gray())
     echo(player, "/tpadd <location name> - This creates a new location with your current coordinates.".gold())
-    echo(player, "/tpdelete <location name> - This will delete a registered location name.".gold())
+    echo(player, "/tpdel <location name> - This will delete a registered location name.".gold())
     echo(player, "Click with a compass in hand to open your compass inventory!".gold())
 })
