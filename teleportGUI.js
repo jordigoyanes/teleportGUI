@@ -19,7 +19,7 @@ var USAGE_INFO = "Usage: /tpadd myHomeName (no spaces)"
 
 //END OF CONFIGURATION
 
-//Below is the plugin code, edit it under your own risk :)
+//Below is the plugin code, feel free to improve it :)
 
 var Bukkit = org.bukkit.Bukkit;
 var Inventory = org.bukkit.inventory.Inventory;
