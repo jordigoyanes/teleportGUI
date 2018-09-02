@@ -55,8 +55,6 @@ function compassInventory(event) {
 
     if (p.getItemInHand().getType() === Material.COMPASS) {
         if (action == "RIGHT_CLICK_AIR" || action == "LEFT_CLICK_AIR" || action == "RIGHT_CLICK_BLOCK") {
-            echo(p, "hi, lol34")
-            echo(p, "COMPASSDB: " + JSON.stringify(compassdb));
             if (compassdb === undefined) {
                 //If the compass database doesn't exist, create one from the first compass click made by any player.
                 compassdb = {};
