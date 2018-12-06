@@ -61,11 +61,8 @@ function compassInventory(event) {
                 compassdb[playerUUID] = {};
                 compassdb[playerUUID].compass = {};
                 scsave(compassdb, 'compassdata.json');
-                showLocs()
-            } else {
-                showLocs()
-
-            }
+            } 
+            showLocs();
             p.openInventory(compassInv);
         }
     }
